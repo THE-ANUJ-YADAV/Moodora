@@ -38,4 +38,17 @@ const [songFile, posterFile] = await Promise.all([
 
 }
 
-module.exports = { uploadSong }
+async function getSong(req,res){
+     const { mood} = req.query
+
+     const song = await songModel.findOne({
+          mood
+     })
+
+     res.status(200).json({
+          message: "Song Fetched Successfully.",
+          song
+     })
+}
+
+module.exports = { uploadSong , getSong }
