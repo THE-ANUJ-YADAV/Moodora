@@ -1,0 +1,380 @@
+// Navbar Styles
+$primary-violet: #7c3aed;
+$accent-cyan: #06b6d4;
+$spotify-green: #1DB954;
+$dark-bg: #0f172a;
+$dark-gray: #1a2847;
+$text-primary: #f1f5f9;
+$text-secondary: #cbd5e1;
+$glass-border: rgba(148, 163, 184, 0.2);
+
+@keyframes noteFloat {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-8px) scale(1.05);
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(124, 58, 237, 0.4), 0 0 30px rgba(6, 182, 212, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(124, 58, 237, 0.6), 0 0 40px rgba(6, 182, 212, 0.3);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.moodora-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: auto;
+  background: linear-gradient(180deg, rgba(26, 40, 71, 0.95) 0%, rgba(15, 23, 42, 0.9) 100%);
+  border-bottom: 1px solid $glass-border;
+  backdrop-filter: blur(20px);
+  z-index: 1000;
+  padding: 0.75rem 0;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+
+  // Background shimmer effect
+  &::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(29, 185, 84, 0.05), transparent);
+    background-size: 1000px 100%;
+    animation: shimmer 4s infinite;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+  }
+
+  .navbar-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    min-height: 80px;
+  }
+}
+
+// Logo Section
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+
+  .logo-circle {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.15) 0%, rgba(6, 182, 212, 0.15) 100%);
+    border: 1.5px solid rgba(29, 185, 84, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    animation: glowPulse 3s ease-in-out infinite;
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    flex-shrink: 0;
+
+    // Rotating ring
+    &::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 1.5px solid transparent;
+      border-top: 1.5px solid $spotify-green;
+      animation: spin 4s linear infinite;
+      opacity: 0.3;
+    }
+
+    .logo-icon {
+      width: 85%;
+      height: 85%;
+      fill: none;
+      position: relative;
+      z-index: 2;
+
+      .note-group {
+        animation: noteFloat 2s ease-in-out infinite;
+      }
+    }
+  }
+
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    text-align: left;
+
+    .app-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: $text-primary;
+      margin: 0;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, $primary-violet, $accent-cyan);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .tagline {
+      font-size: 0.7rem;
+      color: $text-secondary;
+      margin: 0;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+
+      .emotion-text {
+        font-weight: 700;
+        background: linear-gradient(135deg, $spotify-green, $accent-cyan);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        display: inline-block;
+      }
+    }
+  }
+}
+
+// Right section (for future use)
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+// ===================================
+// RESPONSIVE DESIGN
+// ===================================
+
+// Desktop (1025px+)
+@media (min-width: 1025px) {
+  .moodora-navbar {
+    padding: 1rem 0;
+
+    .navbar-content {
+      min-height: 90px;
+      padding: 0 3rem;
+    }
+  }
+
+  .navbar-logo {
+    gap: 1.5rem;
+
+    .logo-circle {
+      width: 80px;
+      height: 80px;
+    }
+
+    .logo-text {
+      .app-title {
+        font-size: 2rem;
+      }
+
+      .tagline {
+        font-size: 0.75rem;
+      }
+    }
+  }
+}
+
+// Large Tablet (768px - 1024px)
+@media (max-width: 1024px) and (min-width: 769px) {
+  .moodora-navbar {
+    padding: 0.75rem 0;
+
+    .navbar-content {
+      min-height: 85px;
+      padding: 0 2rem;
+    }
+  }
+
+  .navbar-logo {
+    gap: 1.25rem;
+
+    .logo-circle {
+      width: 70px;
+      height: 70px;
+    }
+
+    .logo-text {
+      .app-title {
+        font-size: 1.6rem;
+      }
+
+      .tagline {
+        font-size: 0.65rem;
+      }
+    }
+  }
+}
+
+// Small Tablet/Large Phone (641px - 768px)
+@media (max-width: 768px) and (min-width: 641px) {
+  .moodora-navbar {
+    padding: 0.65rem 0;
+
+    .navbar-content {
+      min-height: 80px;
+      padding: 0 1.5rem;
+    }
+  }
+
+  .navbar-logo {
+    gap: 1rem;
+
+    .logo-circle {
+      width: 65px;
+      height: 65px;
+    }
+
+    .logo-text {
+      .app-title {
+        font-size: 1.4rem;
+        letter-spacing: -0.5px;
+      }
+
+      .tagline {
+        font-size: 0.6rem;
+      }
+    }
+  }
+}
+
+// Large Phone (481px - 640px)
+@media (max-width: 640px) and (min-width: 481px) {
+  .moodora-navbar {
+    padding: 0.6rem 0;
+
+    .navbar-content {
+      min-height: 75px;
+      padding: 0 1.25rem;
+    }
+  }
+
+  .navbar-logo {
+    gap: 0.9rem;
+
+    .logo-circle {
+      width: 60px;
+      height: 60px;
+    }
+
+    .logo-text {
+      .app-title {
+        font-size: 1.25rem;
+        letter-spacing: -0.5px;
+      }
+
+      .tagline {
+        font-size: 0.55rem;
+      }
+    }
+  }
+}
+
+// Mobile (320px - 480px)
+@media (max-width: 480px) {
+  .moodora-navbar {
+    padding: 0.5rem 0;
+
+    .navbar-content {
+      min-height: 70px;
+      padding: 0 1rem;
+    }
+
+    &::before {
+      background-size: 600px 100%;
+    }
+  }
+
+  .navbar-logo {
+    gap: 0.75rem;
+
+    .logo-circle {
+      width: 55px;
+      height: 55px;
+
+      .logo-icon {
+        width: 80%;
+        height: 80%;
+      }
+    }
+
+    .logo-text {
+      .app-title {
+        font-size: 1.1rem;
+        letter-spacing: -0.5px;
+      }
+
+      .tagline {
+        font-size: 0.5rem;
+      }
+    }
+  }
+}
+
+// Extra Small Mobile (320px - 375px)
+@media (max-width: 375px) {
+  .moodora-navbar {
+    padding: 0.45rem 0;
+
+    .navbar-content {
+      min-height: 65px;
+      padding: 0 0.75rem;
+    }
+  }
+
+  .navbar-logo {
+    gap: 0.6rem;
+
+    .logo-circle {
+      width: 50px;
+      height: 50px;
+
+      .logo-icon {
+        width: 75%;
+        height: 75%;
+      }
+    }
+
+    .logo-text {
+      .app-title {
+        font-size: 0.95rem;
+      }
+
+      .tagline {
+        font-size: 0.45rem;
+      }
+    }
+  }
+}

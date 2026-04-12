@@ -1,0 +1,730 @@
+// Modern Glassmorphism Design System
+$primary-violet: #7c3aed;
+$accent-cyan: #06b6d4;
+$dark-bg: #0f172a;
+$glass-bg: rgba(15, 23, 42, 0.7);
+$glass-border: rgba(148, 163, 184, 0.2);
+$text-primary: #f1f5f9;
+$text-secondary: #cbd5e1;
+
+// Emotion-based colors
+$emotion-happy: #fbbf24;
+$emotion-sad: #3b82f6;
+$emotion-surprised: #ec4899;
+$emotion-angry: #ef4444;
+$emotion-neutral: #8b5cf6;
+
+@keyframes pulseRing {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.5), 0 0 40px rgba(6, 182, 212, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(124, 58, 237, 0.8), 0 0 60px rgba(6, 182, 212, 0.5);
+  }
+}
+
+@keyframes scannerLine {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes cornerFlash {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.face-expression-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, $dark-bg 0%, #1a2847 100%);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+
+  // Animated background elements
+  &::before {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    top: 10%;
+    left: 10%;
+    animation: float 6s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(6, 182, 212, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    bottom: 10%;
+    right: 10%;
+    animation: float 8s ease-in-out infinite reverse;
+    pointer-events: none;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(20px);
+  }
+}
+
+.detection-area {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  z-index: 1;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  height: 500px;
+  border-radius: 2rem;
+  overflow: hidden;
+  background: $glass-bg;
+  border: 1px solid $glass-border;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  // HUD Overlay
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px solid rgba(6, 182, 212, 0.3);
+    border-radius: 2rem;
+    pointer-events: none;
+    box-shadow: inset 0 0 30px rgba(124, 58, 237, 0.2);
+    z-index: 2;
+  }
+
+  // Corner markers
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+      linear-gradient(90deg, rgba(6, 182, 212, 0.3) 0%, transparent 5%, transparent 95%, rgba(6, 182, 212, 0.3) 100%),
+      linear-gradient(180deg, rgba(6, 182, 212, 0.3) 0%, transparent 5%, transparent 95%, rgba(6, 182, 212, 0.3) 100%);
+    pointer-events: none;
+    z-index: 3;
+  }
+}
+
+.video-container.scanning {
+  &::before {
+    animation: cornerFlash 1.5s ease-in-out infinite;
+    box-shadow: inset 0 0 50px rgba(124, 58, 237, 0.4), 0 0 30px rgba(6, 182, 212, 0.4);
+  }
+}
+
+// Scanner line effect
+.scanner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  border-radius: 2rem;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, $accent-cyan, transparent);
+    top: 0;
+    animation: scannerLine 2s ease-in-out infinite;
+  }
+}
+
+.aura-button-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 180px;
+  width: 180px;
+}
+
+// Main Aura Button
+.aura-button {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, $primary-violet 0%, #a855f7 100%);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.5), 0 0 40px rgba(6, 182, 212, 0.3);
+  animation: glowPulse 2s ease-in-out infinite;
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 40px rgba(124, 58, 237, 0.8), 0 0 60px rgba(6, 182, 212, 0.6);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  // Pulsating rings
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid $accent-cyan;
+  }
+
+  &::before {
+    width: 170px;
+    height: 170px;
+    animation: pulseRing 2s ease-in-out infinite;
+    opacity: 0.8;
+  }
+
+  &::after {
+    width: 200px;
+    height: 200px;
+    animation: pulseRing 2s ease-in-out 0.5s infinite;
+    opacity: 0.5;
+  }
+
+  // Icon inside button
+  svg {
+    width: 60px;
+    height: 60px;
+    fill: white;
+    position: relative;
+    z-index: 2;
+  }
+}
+
+.aura-button.loading {
+  animation: none;
+
+  &::before {
+    animation: none;
+    width: 170px;
+    height: 170px;
+    border: 2px solid transparent;
+    border-top-color: $accent-cyan;
+    animation: spin 1s linear infinite;
+  }
+
+  &::after {
+    display: none;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.expression-display {
+  text-align: center;
+  color: $text-primary;
+  z-index: 1;
+  min-height: 3rem;
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    background: linear-gradient(135deg, $primary-violet, $accent-cyan);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  p {
+    font-size: 0.9rem;
+    color: $text-secondary;
+    margin-top: 0.5rem;
+  }
+}
+
+// Emotion-specific theming
+.emotion-happy {
+  .video-container::before,
+  .video-container::after,
+  .scanner-overlay::after {
+    border-color: rgba($emotion-happy, 0.5);
+    box-shadow: inset 0 0 30px rgba($emotion-happy, 0.2);
+  }
+
+  .aura-button {
+    background: linear-gradient(135deg, $emotion-happy 0%, #f59e0b 100%);
+    box-shadow: 0 0 20px rgba($emotion-happy, 0.5), 0 0 40px rgba($emotion-happy, 0.3);
+  }
+
+  .aura-button::before {
+    border-color: $emotion-happy;
+  }
+}
+
+.emotion-sad {
+  .video-container::before,
+  .video-container::after,
+  .scanner-overlay::after {
+    border-color: rgba($emotion-sad, 0.5);
+    box-shadow: inset 0 0 30px rgba($emotion-sad, 0.2);
+  }
+
+  .aura-button {
+    background: linear-gradient(135deg, $emotion-sad 0%, #1e3a8a 100%);
+    box-shadow: 0 0 20px rgba($emotion-sad, 0.5), 0 0 40px rgba($emotion-sad, 0.3);
+  }
+
+  .aura-button::before {
+    border-color: $emotion-sad;
+  }
+}
+
+.emotion-surprised {
+  .video-container::before,
+  .video-container::after,
+  .scanner-overlay::after {
+    border-color: rgba($emotion-surprised, 0.5);
+    box-shadow: inset 0 0 30px rgba($emotion-surprised, 0.2);
+  }
+
+  .aura-button {
+    background: linear-gradient(135deg, $emotion-surprised 0%, #f43f5e 100%);
+    box-shadow: 0 0 20px rgba($emotion-surprised, 0.5), 0 0 40px rgba($emotion-surprised, 0.3);
+  }
+
+  .aura-button::before {
+    border-color: $emotion-surprised;
+  }
+}
+
+.emotion-angry {
+  .video-container::before,
+  .video-container::after,
+  .scanner-overlay::after {
+    border-color: rgba($emotion-angry, 0.5);
+    box-shadow: inset 0 0 30px rgba($emotion-angry, 0.2);
+  }
+
+  .aura-button {
+    background: linear-gradient(135deg, $emotion-angry 0%, #dc2626 100%);
+    box-shadow: 0 0 20px rgba($emotion-angry, 0.5), 0 0 40px rgba($emotion-angry, 0.3);
+  }
+
+  .aura-button::before {
+    border-color: $emotion-angry;
+  }
+}
+
+.emotion-neutral {
+  .video-container::before,
+  .video-container::after,
+  .scanner-overlay::after {
+    border-color: rgba($emotion-neutral, 0.5);
+    box-shadow: inset 0 0 30px rgba($emotion-neutral, 0.2);
+  }
+
+  .aura-button {
+    background: linear-gradient(135deg, $emotion-neutral 0%, #7c3aed 100%);
+    box-shadow: 0 0 20px rgba($emotion-neutral, 0.5), 0 0 40px rgba($emotion-neutral, 0.3);
+  }
+
+  .aura-button::before {
+    border-color: $emotion-neutral;
+  }
+}
+
+// Responsive Design
+// Desktop/Large Screens (1025px and up)
+@media (min-width: 1025px) {
+  .face-expression-container {
+    padding: 3rem;
+
+    &::before {
+      width: 350px;
+      height: 350px;
+    }
+
+    &::after {
+      width: 450px;
+      height: 450px;
+    }
+  }
+
+  .detection-area {
+    gap: 2.5rem;
+  }
+
+  .video-container {
+    max-width: 550px;
+    height: 550px;
+  }
+
+  .aura-button-wrapper {
+    height: 200px;
+    width: 200px;
+  }
+
+  .aura-button {
+    width: 160px;
+    height: 160px;
+
+    svg {
+      width: 70px;
+      height: 70px;
+    }
+
+    &::before {
+      width: 190px;
+      height: 190px;
+    }
+
+    &::after {
+      width: 220px;
+      height: 220px;
+    }
+  }
+
+  .expression-display {
+    h2 {
+      font-size: 1.8rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
+}
+
+// Tablet (641px - 1024px)
+@media (max-width: 1024px) {
+  .face-expression-container {
+    padding: 2.5rem 1.5rem;
+
+    &::before {
+      width: 250px;
+      height: 250px;
+      top: 5%;
+      left: 5%;
+    }
+
+    &::after {
+      width: 300px;
+      height: 300px;
+      bottom: 5%;
+      right: 5%;
+    }
+  }
+
+  .detection-area {
+    gap: 2rem;
+  }
+
+  .video-container {
+    max-width: 450px;
+    height: 450px;
+    border-radius: 1.5rem;
+  }
+
+  .aura-button-wrapper {
+    height: 170px;
+    width: 170px;
+  }
+
+  .aura-button {
+    width: 130px;
+    height: 130px;
+
+    svg {
+      width: 55px;
+      height: 55px;
+    }
+
+    &::before {
+      width: 160px;
+      height: 160px;
+    }
+
+    &::after {
+      width: 190px;
+      height: 190px;
+    }
+  }
+
+  .expression-display {
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    p {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+// Small Tablet/Large Phone (481px - 640px)
+@media (max-width: 640px) {
+  .face-expression-container {
+    padding: 1.5rem 1rem;
+    gap: 1.5rem;
+
+    &::before {
+      width: 200px;
+      height: 200px;
+    }
+
+    &::after {
+      width: 250px;
+      height: 250px;
+    }
+  }
+
+  .detection-area {
+    gap: 1.5rem;
+  }
+
+  .video-container {
+    max-width: 100%;
+    height: 350px;
+    border-radius: 1.25rem;
+  }
+
+  .aura-button-wrapper {
+    height: 150px;
+    width: 150px;
+  }
+
+  .aura-button {
+    width: 120px;
+    height: 120px;
+
+    svg {
+      width: 50px;
+      height: 50px;
+    }
+
+    &::before {
+      width: 145px;
+      height: 145px;
+    }
+
+    &::after {
+      width: 170px;
+      height: 170px;
+    }
+  }
+
+  .expression-display {
+    h2 {
+      font-size: 1.3rem;
+    }
+
+    p {
+      font-size: 0.85rem;
+    }
+  }
+}
+
+// Mobile (320px - 480px)
+@media (max-width: 480px) {
+  .face-expression-container {
+    min-height: 100vh;
+    padding: 1rem;
+    gap: 1.5rem;
+
+    &::before {
+      width: 150px;
+      height: 150px;
+      top: 10%;
+      left: -25px;
+    }
+
+    &::after {
+      width: 200px;
+      height: 200px;
+      bottom: -50px;
+      right: -25px;
+    }
+  }
+
+  .detection-area {
+    gap: 1.25rem;
+    width: 100%;
+  }
+
+  .video-container {
+    width: calc(100% - 0.5rem);
+    height: auto;
+    aspect-ratio: 1;
+    max-height: 300px;
+    border-radius: 1rem;
+  }
+
+  .scanner-overlay {
+    border-radius: 1rem;
+  }
+
+  .aura-button-wrapper {
+    height: 130px;
+    width: 130px;
+  }
+
+  .aura-button {
+    width: 100px;
+    height: 100px;
+
+    svg {
+      width: 45px;
+      height: 45px;
+    }
+
+    &::before {
+      width: 125px;
+      height: 125px;
+    }
+
+    &::after {
+      width: 150px;
+      height: 150px;
+    }
+  }
+
+  .expression-display {
+    h2 {
+      font-size: 1.1rem;
+    }
+
+    p {
+      font-size: 0.8rem;
+    }
+  }
+}
+
+// Extra Small Mobile (320px - 375px)
+@media (max-width: 375px) {
+  .face-expression-container {
+    padding: 0.75rem;
+
+    &::before {
+      width: 120px;
+      height: 120px;
+    }
+
+    &::after {
+      width: 150px;
+      height: 150px;
+    }
+  }
+
+  .detection-area {
+    gap: 1rem;
+  }
+
+  .video-container {
+    max-height: 250px;
+  }
+
+  .aura-button-wrapper {
+    height: 110px;
+    width: 110px;
+  }
+
+  .aura-button {
+    width: 85px;
+    height: 85px;
+
+    svg {
+      width: 40px;
+      height: 40px;
+    }
+
+    &::before {
+      width: 110px;
+      height: 110px;
+    }
+
+    &::after {
+      width: 130px;
+      height: 130px;
+    }
+  }
+
+  .expression-display {
+    h2 {
+      font-size: 1rem;
+    }
+
+    p {
+      font-size: 0.75rem;
+    }
+  }
+}
